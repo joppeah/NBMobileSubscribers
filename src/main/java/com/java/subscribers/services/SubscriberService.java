@@ -31,6 +31,12 @@ public class SubscriberService {
     public List<Mobilesubscriber> getAllSubscribers(String search) {
         return subrepo.findAllByMsisdnAndServiceType(search, search);
     }
+    
+    //method to get subscriber by msisdn
+    public Mobilesubscriber findByMsisdn(String msisdn)
+    {
+        return subrepo.findByMsisdn(msisdn);
+    }
 
     //method to add a subscriber
     public Mobilesubscriber addSubscriber(Mobilesubscriber subscriber) {

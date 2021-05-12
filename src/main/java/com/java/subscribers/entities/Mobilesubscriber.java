@@ -16,6 +16,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Digits;
+//import javax.validation.constraints.NotBlank;
+//import javax.validation.constraints.NotEmpty;
+//import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
+//import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -29,21 +35,20 @@ public class Mobilesubscriber implements Serializable
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "Id")
     private Integer id;
-    @Basic(optional = false)
-    @Column(name = "msisdn")
+    @NotBlank(message = "must not be null")
+    @Column(name = "msisdn")    
     private String msisdn;
-    @Basic(optional = false)
+    @Digits(integer=10, fraction=0, message = "must not be null")
     @Column(name = "customer_id_owner")
     private int customerIdOwner;
-    @Basic(optional = false)
+    @Digits(integer=10, fraction=0, message = "must not be null") 
     @Column(name = "customer_id_user")
     private int customerIdUser;
-    @Column(name = "service_type")
+    @NotBlank(message = "must not be null")
+    @Column(name = "service_type")    
     private String serviceType;
-    @Basic(optional = false)
     @Column(name = "service_start_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date serviceStartDate;

@@ -11,6 +11,7 @@ package com.java.subscribers.logging;
  */
 public class LogMessage {
     private Integer httpStatus;
+    private String httpMethod;
     private String path;
     private String clientIp;
     private String javaMethod;
@@ -56,9 +57,23 @@ public class LogMessage {
         this.response = response;
     }
 
+    /**
+     * @return the httpMethod
+     */
+    public String getHttpMethod() {
+        return httpMethod;
+    }
+
+    /**
+     * @param httpMethod the httpMethod to set
+     */
+    public void setHttpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
+    }
+
     @Override
     public String toString() {
-        return "LogMessage{" + "httpStatus=" + httpStatus + ", path=" + path + ", clientIp=" + clientIp + ", javaMethod=" + javaMethod + ", response=" + response + '}';
+        return "LogMessage{" + "httpStatus=" + httpStatus + ", httpMethod=" + httpMethod + ", path=" + path + ", clientIp=" + clientIp + ", javaMethod=" + javaMethod + ", response=" + response + '}';
     }
 
    

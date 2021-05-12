@@ -5,21 +5,22 @@
  */
 package com.java.subscribers.logging;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.DispatcherServlet;
+
 /**
  *
  * @author Junior
  */
 
-
-
 @Configuration
 public class FilterConfig {
-    
+
     @Bean
     public ServletRegistrationBean dispatcherRegistration() {
         return new ServletRegistrationBean(dispatcherServlet());
@@ -29,5 +30,4 @@ public class FilterConfig {
     public DispatcherServlet dispatcherServlet() {
         return new LoggerbleDispatcherServlet();
     }
-
 }

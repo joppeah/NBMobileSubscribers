@@ -45,15 +45,17 @@ public class LoggerbleDispatcherServlet extends DispatcherServlet {
     }
 
     private void log(HttpServletRequest requestToCache, HttpServletResponse responseToCache, HandlerExecutionChain handler) {
-        LogMessage log = new LogMessage();
-        log.setHttpStatus(responseToCache.getStatus());
-        //log.setHttpMethod(requestToCache.getMethod());
-        log.setPath(requestToCache.getRequestURI());
-        log.setClientIp(requestToCache.getRemoteAddr());
-        log.setJavaMethod(handler.toString());
-        log.setResponse(getResponsePayload(responseToCache));
-        //System.out.println("Logger Logging: "+log.toString());
-        logger.info("LOGGER: " + log.toString());
+        LogMessage logmsg = new LogMessage();
+        logmsg.setHttpStatus(responseToCache.getStatus());
+        logmsg.setHttpMethod(requestToCache.getMethod());
+        logmsg.setPath(requestToCache.getRequestURI());
+        logmsg.setClientIp(requestToCache.getRemoteAddr());
+        logmsg.setJavaMethod(handler.toString());
+        logmsg.setResponse(getResponsePayload(responseToCache));
+        
+        if(!logmsg.getResponse().contains("/DOCTYPE") || !logmsg.getPath().contains("/swagger-ui.html")
+                || !logmsg.getPath().contains("/webjars/springfox-swagger-ui"))
+            logger.info("LOGGER: " + logmsg.toString()); 
     }
 
     private String getResponsePayload(HttpServletResponse response) {
