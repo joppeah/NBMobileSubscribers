@@ -38,9 +38,7 @@ public class UserController {
     @PostMapping(value = "/add", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> save(@RequestBody User request) throws JsonProcessingException {
         
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        
-        logger.info("Post Request Payload: " + ow.writeValueAsString(request));
+        logger.info("Post Request Payload: " + new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(request));
 
         //check if user already exists
         if (userService.checkIfUserExists(request.getUsername())) {
