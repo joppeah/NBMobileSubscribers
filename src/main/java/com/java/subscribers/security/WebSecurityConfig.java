@@ -23,18 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource ds;
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .cors()
-//                .and()
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .anyRequest().authenticated()
-//                .and()
-//                .httpBasic();
-//    }
-    @Autowired
+   @Autowired
     public void configureAMBuilder(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(ds)
                 .authoritiesByUsernameQuery("select username, user_role from user where username=?")
@@ -43,15 +32,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http
             .httpBasic()
             .and()
-            .authorizeRequests()
+            .authorizeRequests()            
+            .antMatchers("/mobile/**").hasAnyAuthority("USER","APIDEV","ADMIN")
+            .antMatchers("/swagger-ui.html").hasAnyAuthority("APIDEV","ADMIN")
+            .antMatchers("/user/**").hasAnyAuthority("ADMIN")
             .anyRequest()
-            .authenticated();
+            .authenticated()
+            .and()
+            .exceptionHandling().accessDeniedPage("/403");
         http.csrf().disable();
-    }
+    }  
 
     @Bean
     public PasswordEncoder passwordEncoder() {
