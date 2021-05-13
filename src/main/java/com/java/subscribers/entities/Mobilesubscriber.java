@@ -5,6 +5,7 @@
  */
 package com.java.subscribers.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -49,6 +50,7 @@ public class Mobilesubscriber implements Serializable
     @NotBlank(message = "must not be null")
     @Column(name = "service_type")    
     private String serviceType;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "service_start_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date serviceStartDate;

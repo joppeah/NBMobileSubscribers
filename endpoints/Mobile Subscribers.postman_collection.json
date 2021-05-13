@@ -1,0 +1,104 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Mobile Subscribers",
+		"_postman_id": "35cfebba-3c8f-5357-5d84-5e0c48fae7c8",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Subscribers",
+			"request": {
+				"url": "http://localhost:8080/mobile/subscribers",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Subscribers With Criteria",
+			"request": {
+				"url": "http://localhost:8080/mobile/subscribers/MOBILE_PREPAID",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "",
+						"disabled": true
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Subscriber",
+			"request": {
+				"url": "http://localhost:8080/mobile/add",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"msisdn\":\"35622145446\",\r\n\t\"customerIdOwner\":12,\r\n\t\"customerIdUser\":12,\r\n\t\"serviceType\":\"MOBILE_PREPAID\",\r\n\t\"serviceStartDate\":\"1616575685591\"\r\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Service Type",
+			"request": {
+				"url": "http://localhost:8080/mobile/update/3344555/MOBILE_POSTPAID",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YWRtaW46YWRtaW4=",
+						"description": ""
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

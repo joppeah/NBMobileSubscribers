@@ -5,8 +5,12 @@
  */
 package com.java.subscribers.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.java.subscribers.entities.Mobilesubscriber;
 import com.java.subscribers.services.SubscriberService;
+import com.java.subscribers.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,15 +60,23 @@ public class MobileSubscriberController {
         }
     }
 
-    @PostMapping(value = "/add", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
-    public ResponseEntity<?> save(@RequestBody Mobilesubscriber request) {
+    @PostMapping(value = "/add", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> save(@RequestBody Mobilesubscriber request) throws JsonProcessingException {
         
-        logger.info("Post Request Payload: " + request.toString());
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        
+        logger.info("Post Request Payload: " + ow.writeValueAsString(request));
 
         //check if mobile number already exists
         if (subscriberService.findByMsisdn(request.getMsisdn()) != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("MSISDN already exists");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"msg\":\"MSISDN already exists\"}");
         }
+        
+        //check if mobile number is in the right format
+        if (!Utils.checkMSISDN(request.getMsisdn())) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"msg\":\"MSISDN not in right format eg. 35622123456\"}");
+        }
+        
 
         var mobilesubscriber = subscriberService.addSubscriber(request);
         if (mobilesubscriber != null) {

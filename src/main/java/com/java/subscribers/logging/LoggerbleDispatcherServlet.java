@@ -5,6 +5,9 @@
  */
 package com.java.subscribers.logging;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +28,7 @@ import org.springframework.web.util.WebUtils;
 public class LoggerbleDispatcherServlet extends DispatcherServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggerbleDispatcherServlet.class);
+    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     @Override
     protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -44,7 +48,7 @@ public class LoggerbleDispatcherServlet extends DispatcherServlet {
         }
     }
 
-    private void log(HttpServletRequest requestToCache, HttpServletResponse responseToCache, HandlerExecutionChain handler) {
+    private void log(HttpServletRequest requestToCache, HttpServletResponse responseToCache, HandlerExecutionChain handler) throws JsonProcessingException {
         LogMessage logmsg = new LogMessage();
         logmsg.setHttpStatus(responseToCache.getStatus());
         logmsg.setHttpMethod(requestToCache.getMethod());
@@ -55,7 +59,9 @@ public class LoggerbleDispatcherServlet extends DispatcherServlet {
         
         if(!logmsg.getResponse().contains("/DOCTYPE") || !logmsg.getPath().contains("/swagger-ui.html")
                 || !logmsg.getPath().contains("/webjars/springfox-swagger-ui"))
-            logger.info("LOGGER: " + logmsg.toString()); 
+        {        
+            logger.info("LOGGER: " + ow.writeValueAsString(logmsg)); 
+        }      
     }
 
     private String getResponsePayload(HttpServletResponse response) {
