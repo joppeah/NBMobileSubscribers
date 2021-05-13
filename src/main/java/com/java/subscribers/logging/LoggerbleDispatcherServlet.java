@@ -8,6 +8,7 @@ package com.java.subscribers.logging;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +29,7 @@ import org.springframework.web.util.WebUtils;
 public class LoggerbleDispatcherServlet extends DispatcherServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggerbleDispatcherServlet.class);
-    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    private static final ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     @Override
     protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -54,7 +55,7 @@ public class LoggerbleDispatcherServlet extends DispatcherServlet {
         logmsg.setHttpMethod(requestToCache.getMethod());
         logmsg.setPath(requestToCache.getRequestURI());
         logmsg.setClientIp(requestToCache.getRemoteAddr());
-        logmsg.setJavaMethod(handler.toString());
+        logmsg.setJavaMethod(handler.toString());        
         logmsg.setResponse(getResponsePayload(responseToCache));
         
         if(!logmsg.getResponse().contains("/DOCTYPE") || !logmsg.getPath().contains("/swagger-ui.html")
@@ -72,7 +73,7 @@ public class LoggerbleDispatcherServlet extends DispatcherServlet {
             if (buf.length > 0) {
                 int length = Math.min(buf.length, 5120);
                 try {
-                    return new String(buf, 0, length, wrapper.getCharacterEncoding());
+                   return new String(buf, 0, length, wrapper.getCharacterEncoding());                    
                 } catch (UnsupportedEncodingException ex) {
                     // NOOP
                 }

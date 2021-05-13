@@ -6,6 +6,7 @@
 package com.java.subscribers.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -30,6 +31,7 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Entity
 @Table(name = "mobilesubscriber")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Mobilesubscriber implements Serializable
 {
 

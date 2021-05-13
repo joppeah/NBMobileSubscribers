@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.java.subscribers.entities.Mobilesubscriber;
+import com.java.subscribers.pojo.Message;
 import com.java.subscribers.services.SubscriberService;
 import com.java.subscribers.utils.Utils;
 import org.slf4j.Logger;
@@ -69,12 +70,12 @@ public class MobileSubscriberController {
 
         //check if mobile number already exists
         if (subscriberService.findByMsisdn(request.getMsisdn()) != null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"msg\":\"MSISDN already exists\"}");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new Message("MSISDN already exists","ERROR"));
         }
         
         //check if mobile number is in the right format
         if (!Utils.checkMSISDN(request.getMsisdn())) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"msg\":\"MSISDN not in right format eg. 35622123456\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Message("MSISDN not in right format eg. 35622123456", "ERROR"));
         }
         
 
@@ -89,8 +90,8 @@ public class MobileSubscriberController {
     @PatchMapping(value = "/update/{msisdn}/{servicetype}")
     public ResponseEntity<?> edit(@PathVariable("msisdn") String msisdn, @PathVariable("servicetype") String servicetype) {
         var mobilesubscriber = subscriberService.updateSubscriber(msisdn, servicetype);
-        if (mobilesubscriber.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(mobilesubscriber);
+        if (mobilesubscriber != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(new Message("Service Type Update Success","SUCCESS"));
         } else {
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
         }
