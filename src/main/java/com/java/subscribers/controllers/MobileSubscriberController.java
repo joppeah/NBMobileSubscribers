@@ -12,12 +12,14 @@ import com.java.subscribers.entities.Mobilesubscriber;
 import com.java.subscribers.pojo.Message;
 import com.java.subscribers.services.SubscriberService;
 import com.java.subscribers.utils.Utils;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mobile")
+@Validated
 public class MobileSubscriberController {
 
     private static final Logger logger = LoggerFactory.getLogger(MobileSubscriberController.class);
@@ -62,7 +65,7 @@ public class MobileSubscriberController {
     }
 
     @PostMapping(value = "/add", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> save(@RequestBody Mobilesubscriber request) throws JsonProcessingException {
+    public ResponseEntity<?> save(@RequestBody @Valid Mobilesubscriber request) throws JsonProcessingException {
         
         logger.info("Post Request Payload: " + new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(request));
 

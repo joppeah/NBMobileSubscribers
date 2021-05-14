@@ -41,8 +41,8 @@ public class UserController {
         logger.info("Post Request Payload: " + new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(request));
 
         //check if user already exists
-        if (userService.checkIfUserExists(request.getUsername())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new Message("Username already exists","ERROR"));
+        if (userService.checkIfUserExists(request)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new Message("Username/Email  already exists","ERROR"));
         }
         
         var user = userService.saveUser(request);

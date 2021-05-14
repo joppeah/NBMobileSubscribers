@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
 //import javax.validation.constraints.NotBlank;
 //import javax.validation.constraints.NotEmpty;
 //import javax.validation.constraints.Size;
@@ -40,16 +41,16 @@ public class Mobilesubscriber implements Serializable
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Integer id;
-    @NotBlank(message = "must not be null")
+    @NotBlank(message = "MSISDN must not be null. It is mandatory!")
     @Column(name = "msisdn")    
     private String msisdn;
-    @Digits(integer=10, fraction=0, message = "must not be null")
+    @Digits(integer=10, fraction=0, message = "CustomerIdOwner must not be null. It is mandatory")
     @Column(name = "customer_id_owner")
     private int customerIdOwner;
-    @Digits(integer=10, fraction=0, message = "must not be null") 
+    @Digits(integer=10, fraction=0, message = "CustomerIdUser must not be null. It is mandatory") 
     @Column(name = "customer_id_user")
     private int customerIdUser;
-    @NotBlank(message = "must not be null")
+    @NotBlank(message = "serviceType must not be null. It is mandatory")
     @Column(name = "service_type")    
     private String serviceType;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

@@ -38,8 +38,8 @@ public class UserService {
         return userrepo.findAll();
     }
     
-    public Boolean checkIfUserExists(String username)
+    public Boolean checkIfUserExists(User user)
     {
-        return userrepo.existsByUsername(username);
+        return userrepo.existsByUsername(user.getUsername()) || userrepo.existsByEmail(user.getEmail());
     }
 }
